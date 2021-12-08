@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useReducer } from "react";
+import { HomeScreen } from "./components/main/HomeScreen";
+import { searchReducer } from "./reducers/searchReducer";
+import { weatherReducer } from "./reducers/weatherReducer";
 
-function App() {
+export const WeatherContext = createContext();
+export const SearchContext = createContext();
+
+export function App() {
+
+  const [ state, dispatch ] = useReducer(weatherReducer, {})
+  const [ searchState, searchDispatch ] = useReducer(searchReducer, {})
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <WeatherContext.Provider value={{ state, dispatch }}>
+      <SearchContext.Provider value={{ searchState, searchDispatch }}>
+      <div className="App">
+        <HomeScreen />
+      </div>
+      </SearchContext.Provider>
+    </WeatherContext.Provider>
   );
 }
 
